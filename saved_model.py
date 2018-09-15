@@ -367,42 +367,43 @@ def check_model_version_from_file(export_dir,
 
 def test_hyaudio():
   
-
   @ServingInfo.export
   def hyaudio_serving_info():
-    model_dir = r'D:\hyml-audio\singing-or-not\data\frozen'
-    model_name = 'frozen_hyaudio.pb'
+    model_dir = r'audio/'
+    model_name = 'hyaudio.pb'
     frozen_pb = pjoin(model_dir, model_name)
     input_signature_map = { 'inputs': 'hyaudio/vggish_input:0' }
     output_signature_map = { 'classes': 'hyaudio/predict_classes:0',
                              'probs': 'hyaudio/predict_probs:0'}
-    signature_name = "hyaudio"
+    signature_name = "hyaudio_1"
     
     return ServingInfo(frozen_pb, input_signature_map,
       output_signature_map, signature_name)
   
   @ServingInfo.export
-  def vggish_serving_info():
-    model_dir = r'D:\hyml-audio\singing-or-not\data\frozen'
-    model_name = 'frozen_vggish.pb'
+  def hyaudio_serving_info2():
+    model_dir = r'audio/'
+    model_name = 'hyaudio.pb'
     frozen_pb = pjoin(model_dir, model_name)
-    input_signature_map = { 'inputs': 'vggish/input_features:0' }
-    output_signature_map = { 'outputs': 'vggish/embedding:0' }
-    signature_name = "vggish"
+    input_signature_map = { 'inputs': 'hyaudio/vggish_input:0' }
+    output_signature_map = { 'classes': 'hyaudio/predict_classes:0',
+                             'probs': 'hyaudio/predict_probs:0'}
+    signature_name = "hyaudio_2"
     
     return ServingInfo(frozen_pb, input_signature_map,
       output_signature_map, signature_name)
 
   print(_MODELS_TO_EXPORT)
 
-  EXPORT_DIR = "./serving"
-  FROZEN_DIR = "./frozen"
-  MODEL_VERSION = check_model_version(EXPORT_DIR)
-  export_serving_model(FROZEN_DIR, EXPORT_DIR, MODEL_VERSION, show_all_tensors=True)
+  _EXPORT_DIR = "./serving"
+  _FROZEN_DIR = "./frozen"
+  _MODEL_VERSION = check_model_version_from_file(
+                    _EXPORT_DIR,
+                    update_message="Test export",
+                    verbose=True)
+  export_serving_model(_FROZEN_DIR, _EXPORT_DIR, _MODEL_VERSION,
+    show_all_models=True, show_all_tensors=True)
 
 if __name__ == '__main__':
-  
-  # test_hyaudio()
-  print(check_model_version('./serving', verbose=True))
-
+  test_hyaudio()
   pass
