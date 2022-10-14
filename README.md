@@ -1,6 +1,6 @@
 # Merging Models for TensorFlow Serving
 
-This tool can merge TensorFlow frozen models(`.pb` file) into the same model. The advantage of doing this is that
+This tool can merge multiple TensorFlow frozen models(`.pb` file) into one model. The advantage of doing this is that
 
 - When deploying, you only need to place the updated version of the model(**merged model**) in the corresponding location without restart the TensorFlow Serving service.
 - Hot switching can be done easily. That is, the service will not be interrupted when updating the model.
